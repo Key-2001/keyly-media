@@ -20,7 +20,7 @@ const Post = (props) => {
       <span>{data.likes} likes</span>
       <div className='post-section-detail'>
         <span><b>{data.name}</b></span> 
-        <span>{data.desc}</span>
+        <span> {data.desc}</span>
       </div>
     </div>
   )
