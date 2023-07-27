@@ -22,6 +22,8 @@ const PostShare = () => {
   const imageRef = useRef();
   const descRef = useRef();
   const {user} = useSelector((state => state.authReducer.authData));
+  const serverPublic = import.meta.env.VITE_REACT_APP_PUBLIC_FOLDER
+
   //! Function
   const reset = useCallback(() => {
     setImage(null);
@@ -35,7 +37,6 @@ const PostShare = () => {
   };
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
-    console.log("sjnadjksank", image);
     const newPost = {
       userId: user._id,
       desc: descRef.current.value,
@@ -46,7 +47,6 @@ const PostShare = () => {
       data.append("name", filename);
       data.append("file", image);
       newPost.image = filename;
-      console.log("shadnjs", newPost);
       try {
         dispatch(uploadImage(data))
       } catch (error) {
@@ -62,7 +62,7 @@ const PostShare = () => {
   return (
     <Fragment>
       <div className="post-share">
-        <img src={profileImg} alt="post-share" />
+        <img src={user.profilePicture ? serverPublic + user.profilePicture : serverPublic + "defaultProfile.png"} alt="post-share" />
         <div>
           <input type="text" placeholder="What's happening" ref={descRef} required/>
           <div className="post-share-option">

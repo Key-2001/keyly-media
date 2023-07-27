@@ -8,7 +8,7 @@ const Auth = () => {
   //! Props
 
   //! State
-  const [isSignUp, setIsSignUp] = useState(true);
+  const [isSignUp, setIsSignUp] = useState(false);
   //! Function
 
   //! Effect
