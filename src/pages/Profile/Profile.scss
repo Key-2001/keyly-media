@@ -1,7 +1,8 @@
 .profile-section{
   position: relative;
   display: grid;
-  grid-template-columns: 18rem auto 20rem;
+  grid-template-columns: 22rem auto 22rem;
+  max-width: 1550px;
   gap: 1rem;
   &_center{
     display: flex;

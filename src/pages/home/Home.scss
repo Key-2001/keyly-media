@@ -1,6 +1,8 @@
 .home-section{
+  max-width: 1550px;
+  margin: auto 0;
   position: relative;
   display: grid;
-  grid-template-columns: 18rem auto 20rem;
+  grid-template-columns: 22rem auto 22rem;
   gap: 1rem;
 }

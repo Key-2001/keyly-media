@@ -20,15 +20,17 @@ const ProfileCard = (props) => {
   return (
     <div className="profile-card">
       <div className="profile-card-img">
-        <img
-          src={
-            user.coverPicture
-              ? serverPublic + user.coverPicture
-              : serverPublic + "defaultCover.jpg"
-          }
-          alt="bg"
-          className={location === 'profilePage' ? 'cover-profile-img':''}
-        />
+        <div className={location === 'profilePage' ? "" : "cover-img-homepage-wrap"}>
+          <img
+            src={
+              user.coverPicture
+                ? serverPublic + user.coverPicture
+                : serverPublic + "defaultCover.jpg"
+            }
+            alt="bg"
+            className={location === 'profilePage' ? 'cover-profile-img':''}
+          />
+        </div>
         <img
           src={
             user.profilePicture

@@ -4,4 +4,7 @@
   gap: 1rem;
   align-items: center;
   overflow: auto;
+  overflow-x: hidden;
+  position: sticky;
+  top: 1rem;
 }
