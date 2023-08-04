@@ -6,7 +6,7 @@ import CommentIcon from "../../imgs/comment.png";
 import { UilSetting } from "@iconscout/react-unicons";
 import TrendCard from "../TrendCard/TrendCard";
 import ShareModal from "../ShareModal/ShareModal";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
 
 const RightSide = () => {
   //! Props
@@ -21,18 +21,20 @@ const RightSide = () => {
   return (
     <div className="right-side-section">
       <div className="right-side-section_nav">
-      <Link to="/home">
-        <img src={HomeIcon} alt="home" />
-      </Link>
+        <Link to="/home">
+          <img src={HomeIcon} alt="home" />
+        </Link>
         <UilSetting />
         <img src={NotiIcon} alt="noti" />
-        <img src={CommentIcon} alt="comment" />
+        <Link to="/chat">
+          <img src={CommentIcon} alt="comment" />
+        </Link>
       </div>
       <TrendCard />
       <button className="button r-btn" onClick={() => setIsOpenModal(true)}>
         Share
       </button>
-        <ShareModal isOpen={isOpenModal} setIsOpen={setIsOpenModal} />
+      <ShareModal isOpen={isOpenModal} setIsOpen={setIsOpenModal} />
     </div>
   );
 };
