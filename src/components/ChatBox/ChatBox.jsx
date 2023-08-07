@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { Fragment, useCallback, useEffect, useState } from "react";
-import { getMessages } from "../../api/MessagesRequest";
+import React, { Fragment, useCallback, useEffect, useRef, useState } from "react";
+import { addMessage, getMessages } from "../../api/MessagesRequest";
 import { getUser } from "../../api/UserRequest";
 import "./ChatBox.scss";
 import { format } from "timeago.js";
@@ -8,8 +8,9 @@ import InputEmoji from "react-input-emoji";
 
 const ChatBox = (props) => {
   //! Props
-  const { chat, currentUserId } = props;
-  console.log("hsbajdhs", props);
+  const { chat, currentUserId, setSendMessage, receiveMessage } = props;
+  //! Ref
+  const scroll = useRef();
   //! State
   const [userData, setUserData] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -34,6 +35,25 @@ const ChatBox = (props) => {
   const serverPublic = import.meta.env.VITE_REACT_APP_PUBLIC_FOLDER;
   //! Function
   const handleChange = useCallback((e) => setNewMessage(e), [newMessage]);
+  const handleSend = async (e) => {
+    e.preventDefault();
+    const message = {
+      senderId: currentUserId,
+      text: newMessage,
+      chatId: chat._id,
+    };
+
+    try {
+      const { data } = await addMessage(message);
+      setMessages([...messages, data]);
+      setNewMessage("");
+    } catch (error) {
+      console.log("error", error);
+    }
+
+    const receiverId = chat.members.find((id) => id !== currentUserId);
+    setSendMessage({ ...message, receiverId });
+  };
   //! Effect
   useEffect(() => {
     if (chat !== null) {
@@ -45,6 +65,15 @@ const ChatBox = (props) => {
       refetchMessages && refetchMessages();
     }
   }, [chat]);
+
+  useEffect(() => {
+    if (receiveMessage !== null && receiveMessage.chatId === chat._id) {
+      setMessages([...messages, receiveMessage]);
+    }
+  }, [receiveMessage]);
+  useEffect(() => {
+    scroll.current?.scrollIntoView({behavior: "smooth"})
+  },[messages])
   //! Render
   return (
     <Fragment>
@@ -79,6 +108,7 @@ const ChatBox = (props) => {
               {messages.map((message) => (
                 <Fragment key={message._id}>
                   <div
+                  ref={scroll} 
                     className={
                       message.senderId === currentUserId
                         ? "message own"
@@ -96,7 +126,9 @@ const ChatBox = (props) => {
             <div className="chat-sender">
               <div>+</div>
               <InputEmoji value={newMessage} onChange={handleChange} />
-              <div className="send-button button">Send</div>
+              <div className="send-button button" onClick={handleSend}>
+                Send
+              </div>
             </div>
           </Fragment>
         ) : (

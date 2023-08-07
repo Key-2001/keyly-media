@@ -4,7 +4,7 @@ import { getUser } from "../../api/UserRequest";
 
 const Conversation = (props) => {
   //! Props
-  const { data, currentUserId } = props;
+  const { data, currentUserId, online } = props;
   //! State
   const [userData, setUserData] = useState(null);
   const userId = data.members.find((id) => id !== currentUserId);
@@ -26,13 +26,12 @@ const Conversation = (props) => {
   useEffect(() => {
     refetch && refetch();
   }, []);
-  console.log("jakdns", userData);
   //!Render
   return (
     <>
       <div className="follower conversation">
         <div style={{ display: "flex", gap: "8px" }}>
-          <div className="online-dot"></div>
+          {online && <div className="online-dot"></div>}
           <img
             src={
               userData?.profilePicture
@@ -47,7 +46,7 @@ const Conversation = (props) => {
             <span>
               {userData?.firstName} {userData?.lastName}
             </span>
-            <span>Online</span>
+            <span>{online ? "Online" : "Offline"}</span>
           </div>
         </div>
       </div>
